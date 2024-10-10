@@ -34,6 +34,8 @@ export class AuthService {
   storeToken(token: string) {
     localStorage.setItem(this.tokenKey, token);
     console.log("Token stored:", token);
+    // const expiryTime = new Date().getTime() + expiresIn * 1000; // Convert to milliseconds
+    // localStorage.setItem('tokenExpiry', expiryTime.toString());
   }
 
   // Method to retrieve the token

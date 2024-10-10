@@ -56,11 +56,11 @@ export class BookingService {
   }
 
   
-  updateBookings(booking:Booking[]) :Observable<Booking[]>{
-    const headers = this.getAuthHeaders();
-    // const id ={booking._id};
-    const obs=this.http.put<Booking[]>(`${this.apiUrl}/update/booking._id`,booking, { headers }) 
-    // console.log("get Bookings...",obs)
-    return obs;
-  }
+  // updateBookings(booking:Booking[]) :Observable<Booking[]>{
+  //   const headers = this.getAuthHeaders();
+  //   // const id ={booking._id};
+  //   const obs=this.http.put<Booking[]>(`${this.apiUrl}/update/${booking._id}`,booking, { headers }) 
+  //   // console.log("get Bookings...",obs)
+  //   return obs;
+  // }
 }

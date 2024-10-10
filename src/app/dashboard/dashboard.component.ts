@@ -45,20 +45,7 @@ export class DashboardComponent{
   }
 
 
-  // const answer=window.confirm("Do you Really want delete It")
-  // if(answer){
-  //   const obs=this.employeecrud.deleteEmployeeById(_id);
-  //   obs.subscribe({
-  //     next:(data)=>{
-  //     console.log(data);
-  //     window.alert("Employee Deleted Successfully....!");
-  //     this.getEmployees();
-      
-  //     },
-  //     error:(error)=>console.log(error)
-  //   });
   
-  // }
 
   
 

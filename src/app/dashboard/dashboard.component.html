@@ -28,7 +28,7 @@
 
 <h1 class="text-light text-center">Booking Dashboard</h1>
 <div *ngIf="bookings.length === 0" class="alert alert-warning">
-  No bookings available.
+  No Any bookings.
 </div>
 <div class="row">
   <div *ngFor="let booking of bookings" class="col-md-4 mb-4">
@@ -41,8 +41,11 @@
         <p class="card-text">TimeTo: {{ booking.timeTo | date: 'medium' : 'UTC' }}</p>
         <p class="card-text">Payment Status: {{ booking.paymentStatus }}</p> 
       </div>
-      <button class="btn btn-success m-4"  (click)="payment(booking.paymentStatus)" >Pay</button>
-      <button class="btn btn-danger m-4"  (click)="cancelBooking(booking)">Cancel Booking</button>
+      <div>
+        <button class="btn btn-success m-4"  (click)="payment(booking.paymentStatus)" >Pay</button>
+        <button class="btn btn-danger"  (click)="cancelBooking(booking)">Cancel Booking</button>
+      </div>
+      
       
     </div>
   </div>

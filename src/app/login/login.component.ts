@@ -26,6 +26,8 @@ export class LoginComponent {
           const id=response._id;
           this.authService.getCurrentUserId(id);
           const token = response.token;
+          // const expiresIn = response.expiresIn;
+          // console.log(expiresIn);
           if (token) {
             // Store the token and redirect to the desired page
             this.authService.storeToken(token);
