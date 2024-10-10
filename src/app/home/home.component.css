@@ -1,0 +1,18 @@
+.container {
+    text-align: center;
+    /* background-color: aliceblue; */
+    color: red;
+  }
+  h1 {
+    /* color: #779cc4; */
+    color:wheat;
+  }
+  p.lead {
+    font-size: 1.25rem;
+  }
+  /* .notloggedin{
+    color: rgb(223, 26, 147);
+  } */
+  .loggedin{
+    color: green;
+  }

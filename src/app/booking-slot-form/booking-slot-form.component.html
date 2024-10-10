@@ -1,0 +1,44 @@
+<div class="container mt-4">
+  <h2 class="text-center">Book Your Parking Slot</h2>
+  
+  <form  #bookingForm="ngForm" (ngSubmit)="book()" class="mb-4">
+    <div class="mb-3">
+      <label for="vehicleType" class="form-label">Vehicle Type</label>
+      <select [(ngModel)]="vehicleType" name="vehicleType" class="form-select" (change)="fetchSlotsByVehicleType(vehicleType)" required>
+        <option selected disabled>select</option>
+        <option value="2 Wheeler">2 Wheeler</option>
+        <option value="4 Wheeler">4 Wheeler</option>
+      </select>
+    </div>
+  
+    <div class="mb-3">
+      <label for="timeFrom" class="form-label">Time From</label>
+      <input [(ngModel)]="timeFrom" name="timeFrom" type="datetime-local" required class="form-control">
+    </div>
+  
+    <div class="mb-3">
+      <label for="timeTo" class="form-label">Time To</label>
+      <input [(ngModel)]="timeTo" name="timeTo" type="datetime-local" required class="form-control">
+    </div>
+  
+    <h5>Select A Slot:</h5>
+    <div *ngIf="slots.length === 0" class="alert alert-warning">No slots available for the selected vehicle type.</div>
+    <div class="row">
+      <div *ngFor="let slot of slots" class="col-md-4 mb-4">
+        <div class="card" [ngClass]="getSlotClass(slot)" (click)="selectSlot(slot)">
+          <div class="card-body">
+            <h5 class="card-title">Vehicle Type: {{ slot.vehicleType }}</h5>
+            <p class="card-text">Status: {{ slot.status }}</p>
+            <p class="card-text">Rate Per Hour: &#8377;{{ slot.ratePerHour }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-3">
+      <h5>Total Amount: &#8377;{{calculatedAmount()}}</h5>
+    </div>
+
+    <button type="submit" class="btn btn-success">Book</button>
+  </form>
+</div>

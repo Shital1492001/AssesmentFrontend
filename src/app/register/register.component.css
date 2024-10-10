@@ -1,0 +1,15 @@
+.d-flex{
+    margin-top: 100px;
+}
+.w-50{
+    background-color:plum
+}
+.btn{
+    margin-top: 20px;
+}
+input.ng-valid{
+    border-left: 5px solid green;
+}
+input.ng-invalid{
+    border-left: 5px solid red;
+}

@@ -1,0 +1,50 @@
+<article class="d-flex justify-content-center">
+    <div class="w-50 border border-4 p-4">
+        <h3 class="text-center">Registration Form</h3>
+<form (ngSubmit)="save(registrationForm)" #registrationForm="ngForm">
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" [(ngModel)]="model.username" name="username" class="form-control" placeholder="Enter username" #username="ngModel" required >
+      <div class="text-danger" *ngIf="username.invalid && (username.dirty || username.touched)">
+        <span >Username is required</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" [(ngModel)]="model.email" name="email" class="form-control" placeholder="Enter email" #email="ngModel" required>
+      <div class="text-danger" *ngIf="email.invalid && (email.dirty || email.touched)">
+        <span >Email is required</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Contact Number</label>
+      <input type="text" [(ngModel)]="model.contactNumber" name="contactNumber" class="form-control" placeholder="Enter contact number" #contactNumber="ngModel" required minlength="10" maxlength="10">
+      <div class="text-danger" *ngIf="contactNumber.invalid && (contactNumber.dirty || contactNumber.touched)">
+        <span >Contact Number required</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" [(ngModel)]="model.password" name="password" class="form-control" placeholder="Enter password" #password="ngModel" minlength="6" required>
+      <div class="text-danger" *ngIf="password.invalid && (password.dirty || password.touched)">
+        <span >Password is required</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Confirm Password</label>
+      <input type="password" [(ngModel)]="model.confirmPassword" name="confirmPassword" class="form-control" placeholder="Confirm password" #confirmPassword="ngModel" required>
+      <div class="text-danger" *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)">
+        <span>Confirm Password is required</span>
+      </div>
+      <div class="text-danger" *ngIf="password.value !== confirmPassword.value && confirmPassword.dirty">
+        <span>Passwords do not match</span>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-success" [disabled]="registrationForm.invalid">Register</button>
+    <p class="text-center">If user already exists then <a routerLink="/login">Login</a> </p>
+  </form>
+  </div>
+  </article>
+
+  
+  

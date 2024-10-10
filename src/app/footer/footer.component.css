@@ -1,0 +1,10 @@
+.footer {
+    /* background-color: #343a40; Dark background for the footer */
+    padding: 20px 0;
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    left:0px
+  }
+  
+  

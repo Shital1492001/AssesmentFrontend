@@ -1,0 +1,44 @@
+/* .slots-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  } */
+  
+  .slot-available  {
+    border: 5px solid white;
+    background-color: green;
+    padding: 15px;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .slot-occupied{
+    border: 5px solid white;
+    background-color: red;
+    padding: 15px;
+    color: white;
+  }
+  
+  .slot-selected  {
+    border: 5px solid purple;
+    background-color: yellow;
+    padding: 15px;
+    color: black;
+    cursor: pointer;
+  }
+  /* .slot-available:hover {
+    cursor: pointer;
+    background-color: #c3e6cb;
+  } */
+  
+  /* Optional: Add hover effect for selected slot */
+  /* .slot-selected:hover {
+    cursor: pointer;
+    background-color: #ffeeba;
+  } */
+  .container{
+    background-color:plum;
+  }
+  .btn{
+    margin-bottom: 30px;
+  }
