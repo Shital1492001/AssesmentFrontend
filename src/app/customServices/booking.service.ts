@@ -2,12 +2,47 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Booking } from '../customClasses/booking';
+import { Slot } from '../customClasses/slot';
 
+export interface weekly{
+  _id:number,
+  totalBookings:number,
+  totalAmount:number
+
+}
+
+export interface monthly{
+  _id:number,
+  totalBookings:number,
+  totalAmount:number
+
+}
+interface statss{
+  statusCode:number,
+  success:boolean,
+  message:string,
+  statsw:weekly[];
+  statsm:monthly[];
+    // monthlyStats:weekly[];
+  
+  
+}
+// const stats={
+//   weeklyStats[];
+// }
 interface BookingData{
   statusCode:number,
   message:string,
   bookings:Booking[];
 }
+
+interface SlotData{
+  statusCode:number,
+  success:boolean,
+  message:string,
+  slot:Slot[];
+}
+
 
 
 @Injectable({
@@ -54,6 +89,26 @@ export class BookingService {
     // console.log("delete Booking...",obs)
     return obs;
   }
+
+  getBookingStats(year: string): Observable<statss> {
+    const headers = this.getAuthHeaders();
+    const obs=this.http.get<statss>(`${this.apiUrl}/stats/${year}`,{ headers });
+    console.log("Stats...",obs);
+    return obs;
+  }
+
+
+  // updateSlotsById(_id: string): Observable<SlotData> {
+  //   console.log("updated id",_id);
+  //   const headers = this.getAuthHeaders();
+  //   console.log("headers",headers);
+    
+  //   const obs=this.http.put<SlotData>(`${this.apiUrl}/update/${_id}`, { headers });
+  //   console.log("obs",obs);
+    
+  //   return obs;
+    
+  // }
 
   
   // updateBookings(booking:Booking[]) :Observable<Booking[]>{

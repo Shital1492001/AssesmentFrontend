@@ -1,21 +1,31 @@
-.container {
-    padding: 20px;
-  }
-  
-  .filter-section {
-    margin-bottom: 20px;
-  }
-  
-  .loading-spinner {
-    text-align: center;
-  }
-  
-  .table {
-    width: 100%;
-    margin-top: 20px;
-  }
-  .mb-3{
-    display: inline-block;
-    margin: 20px;
-    /* margin: 10px; */
-  }
+.dashboard-container {
+  background-color: #f7f8f1;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 50px;
+}
+
+.dashboard-container h1 {
+  text-align: center;
+  color:chocolate
+}
+
+.dashboard-container label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+#year {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+h3 {
+  text-align: left;
+  margin-top: 20px;
+}
+
+canvas {
+  margin-top: 20px;
+}

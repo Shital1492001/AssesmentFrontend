@@ -1,15 +1,21 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Slot } from '../customClasses/slot';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable} from 'rxjs';
+
+interface SlotData{
+  statusCode:number,
+  success:boolean,
+  message:string,
+  slot:Slot[];
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class SlotService {
   private tokenKey = 'authToken'; // Key to store the token in localStorage
-  private apiUrl = 'http://localhost:5000/slot/';  // Adjust to your backend URL
+  private apiUrl = 'http://localhost:5000/slot';  // Adjust to your backend URL
 
   constructor(private http: HttpClient) {}
 
@@ -30,22 +36,27 @@ export class SlotService {
   }
 
   // Fetch all slots
-  getSlots(): Observable<Slot[]> {
+  getSlots(): Observable<SlotData> {
     const headers = this.getAuthHeaders();
-    return this.http.get<Slot[]>(`${this.apiUrl}/getall`, { headers })
+    return this.http.get<SlotData>(`${this.apiUrl}/getall`, { headers })
      
   }
 
   // Fetch slots by vehicle type
-  getSlotsByVehicleType(vehicleType: string): Observable<Slot[]> {
+  getSlotsByVehicleType(vehicleType: string): Observable<SlotData> {
     const headers = this.getAuthHeaders();
-    return this.http.get<Slot[]>(`${this.apiUrl}/search/${vehicleType}`, { headers })
+    return this.http.get<SlotData>(`${this.apiUrl}/search/${vehicleType}`, { headers })
     
   }
 
-  updateSlotsById(_id: string): Observable<Slot[]> {
+  updateSlotsById(_id: string, status:string): Observable<SlotData> {
+    console.log("updated id",_id);
     const headers = this.getAuthHeaders();
-    const obs=this.http.put<Slot[]>(`${this.apiUrl}/update/${_id}`, { headers });
+    console.log("headers",headers);
+    
+    const obs=this.http.put<SlotData>(`${this.apiUrl}/update/${_id}`,{status}, { headers });
+    console.log("obs",obs);
+    
     return obs;
     
   }

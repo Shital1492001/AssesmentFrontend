@@ -3,6 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../customClasses/user';
 
+export interface UserData{
+  statusCode:number,
+  success:boolean,
+  message:string,
+  user:User[],
+  _id:string,
+  username:string,
+  token:string
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,18 +26,20 @@ export class AuthService {
 
 
   // Register method to send user details to the backend for registration
-  register(username: string, email: string, contactNumber: number, password: string): Observable<User[]> {
+  register(username: string, email: string, contactNumber: number, password: string): Observable<UserData> {
     const user = {username, email, contactNumber, password };
-    return this.http.post<User[]>(`${this.apiUrl}/register`, user);  // Make POST request to register
+    return this.http.post<UserData>(`${this.apiUrl}/register`, user);  // Make POST request to register
   }
 
 
   // Login method that sends the login credentials to the backend
-  login(email: string, password: string): Observable<User[]> {
+  login(email: string, password: string): Observable<UserData> {
      this.loginFlag=true;
     const credentials = { email, password };
     alert("You Logged in successfully....!")
-    return this.http.post<User[]>(`${this.apiUrl}/login`, credentials);  // Make a POST request to the backend for login
+    const obs=this.http.post<UserData>(`${this.apiUrl}/login`, credentials);  
+    return obs;
+
   }
 
   // Method to store token in localStorage

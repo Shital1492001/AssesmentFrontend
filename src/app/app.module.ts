@@ -15,7 +15,9 @@ import { provideHttpClient } from '@angular/common/http';
 // import { authInterceptor } from './customServices/auth.interceptor';
 import { FooterComponent } from './footer/footer.component';
 import { PaymentComponent } from './payment/payment.component';
-// import { DatePipe } from '@angular/common';
+// import { MontlyComponent } from './montly/montly.component';
+import { ShowBookingsComponent } from './show-bookings/show-bookings.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -28,17 +30,16 @@ import { PaymentComponent } from './payment/payment.component';
     BookingSlotFormComponent,
     FooterComponent,
     DashboardComponent,
-    PaymentComponent
+    PaymentComponent,
+    // MontlyComponent,
+    ShowBookingsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
   ],
-  providers: [provideHttpClient(),
-    
-    // DatePipe
-  ],
+  providers: [DatePipe,provideHttpClient(), ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

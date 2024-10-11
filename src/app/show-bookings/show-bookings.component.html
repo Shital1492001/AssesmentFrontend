@@ -1,0 +1,24 @@
+<h1 class="text-light text-center">Booking History</h1>
+<div *ngIf="bookings.length === 0" class="alert alert-warning">
+  No Any bookings.
+</div>
+<div class="row">
+  <div *ngFor="let booking of bookings" class="col-md-4 mb-4">
+    <div class="card">
+      <div class="card-body bg-light">
+        <!-- <h5 class="card-title">UserID: {{ booking.userId }}</h5> -->
+       <!-- <h5 class="card-title">SlotID: {{ booking.slotId }}</h5> -->
+        <p class="card-text">Vehicle Type: {{ booking.vehicleType }}</p>
+        <p class="card-text">TimeFrom: {{ booking.timeFrom | date: 'medium' : 'UTC' }}</p>
+        <p class="card-text">TimeTo: {{ booking.timeTo | date: 'medium' : 'UTC' }}</p>
+        <p class="card-text">Payment Status: {{ booking.paymentStatus }}</p> 
+      </div>
+      <div>
+        <button class="btn btn-success m-4"  (click)="payment(booking.paymentStatus)" >Pay Now</button>
+        <button class="btn btn-danger"  (click)="cancelBooking(booking)">Cancel Booking</button>
+      </div>
+    </div>
+  </div>
+  
+
+  

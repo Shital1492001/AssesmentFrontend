@@ -17,7 +17,7 @@ export class BookingSlotFormComponent {
   timeTo: Date=new Date() 
   slots: Slot[] = [];
   bookings: Booking[] = [];
-  selectedSlotId: string | null = null;  
+  selectedSlotId: string ='';  
   selectedUserId:string |null=null;
   totalAmount=0;
   paymentStatus='';
@@ -34,7 +34,7 @@ export class BookingSlotFormComponent {
   fetchSlots() {
     this.slotService.getSlots().subscribe({
       
-      next: (resultData:any) =>{
+      next: (resultData) =>{
         console.log("resultdata",resultData)
         this.slots = resultData.slot;
       },
@@ -45,23 +45,25 @@ export class BookingSlotFormComponent {
       
     );
   }
-  updateSlots(_id:string){
-    if (_id) {
-      this.slotService.updateSlotsById(_id).subscribe({
-        next: (response) => {
-          console.log('update slots:', response); 
-          if (Array.isArray(response)) {
-            this.slots = response; 
-          } else {
-            console.error('Expected an array but got:', response);
-            this.slots = []; 
-          }
-        },
-        error: (e) => console.error('Error updating slots by Id:', e),
-        complete: () => console.info('Slots updating by Id successfully')
-      });
-    }
-  }
+
+  // updateSlots(_id:string){
+  //   console.log("fdsdf",_id);
+  //   this.bookingService.updateSlotsById(_id).subscribe({
+  //     next: (response) => {
+  //       console.log('update slots:', response); 
+  //       // this.fetchSlots();
+  //       if (response) 
+  //         this.slots = response.slot; 
+  //       this.fetchSlots();
+  //       // } else {
+  //       //   console.error('Expected an array but got:', response);
+  //       //   this.slots = []; 
+  //       // }
+  //     },
+  //     error: (e) => console.error('Error updating slots by Id:', e),
+  //     complete: () => console.info('Slots updating by Id successfully')
+  //   });
+  // }
 
   setUserId() {
     // Assuming your AuthService has a method to get the current user
@@ -72,7 +74,7 @@ export class BookingSlotFormComponent {
   fetchSlotsByVehicleType(vehicleType: string) {
     if (vehicleType) {
       this.slotService.getSlotsByVehicleType(vehicleType).subscribe({
-        next: (response:any) => {
+        next: (response) => {
           console.log('Fetched slots:', response); // Log the response
           // if (Array.isArray(response)) {
             this.slots = response.slot; // Only assign if it's an array
@@ -123,9 +125,9 @@ export class BookingSlotFormComponent {
 
     // Calculate the total amount
     const baseAmount = this.vehicleType === '2 Wheeler' ? 50 : 100;
-    this.totalAmount = durationInHours * baseAmount;
+    this.totalAmount = (durationInHours) * (baseAmount);
 
-    return this.totalAmount;
+    return (this.totalAmount);
   }
 
   book(){
@@ -135,7 +137,9 @@ export class BookingSlotFormComponent {
       next:(response)=>{
         console.log("Slot booked successfully:",response);
         alert("Slot booked successfully!");
-        this.router.navigate(['/dashboard'])
+        // this.updateSlots(this.selectedSlotId);
+        this.router.navigate(['/showbookings']);
+        // this.updateSlots(this.selectedSlotId)
       },
       error:(err)=>{
         console.log(this.selectedUserId)
@@ -143,7 +147,8 @@ export class BookingSlotFormComponent {
         alert("booking Failed");
       }
     });
-  } 
+  }
+     
   }
 
   

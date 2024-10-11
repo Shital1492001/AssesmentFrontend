@@ -1,9 +1,7 @@
 import { Component} from '@angular/core';
-import { BookingService } from '../customServices/booking.service';
-import { Booking } from '../customClasses/booking';
-import { Router } from '@angular/router';
-
-
+import { BookingService, monthly, weekly } from '../customServices/booking.service';
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-dashboard',
@@ -12,71 +10,93 @@ import { Router } from '@angular/router';
 })
 export class DashboardComponent{
   
-  bookings:Booking[]=[];
-  paymentStatus='';
-  
+  selectedYear: string = new Date().getFullYear().toString();
+  weeklyStats: weekly[] = [];
+  monthlyStats: monthly[] = [];
+  years = [2022, 2023, 2024, 2025, 2026, 2027];
 
-  constructor(private bookingService: BookingService,private router:Router) {
-    
-  }
+  // Bar Chart variables
+  weeklyChart: any;
+  monthlyChart: any;
+
+  constructor(private bookingService: BookingService) {}
 
   ngOnInit(): void {
-    this.fetchBookings(); 
+    this.fetchStats(); // Fetch stats on component load
   }
 
-  
-  fetchBookings() {
-    const obs=this.bookingService.getBookings();
-    console.log(obs);
-    obs.subscribe({
-      // const a=BookingData{this.statusCode=}
-      next: (resultData) => {
-        // let a=resultData.timeFrom;
-        // resultData.timeFrom=a.toUTCString();
-        console.log("fetch bookings",resultData);
-        this.bookings = resultData.bookings;
-        
+  fetchStats() {
+    this.bookingService.getBookingStats(this.selectedYear).subscribe({
+      next: (data) => {
+        console.log('stats', data);
+        this.weeklyStats = data.statsw;
+        this.monthlyStats = data.statsm;
+        this.renderWeeklyChart(); // Render chart after data is fetched
+        this.renderMonthlyChart();
       },
-      error: (e) => console.error('Error fetching bookings:', e),
-      complete: () => console.info('complete') 
-    }
-      
-    );
+      error: (err) => {
+        console.error('Error fetching stats:', err);
+      },
+    });
   }
 
+  onYearChange(): void {
+    this.fetchStats(); // Refetch stats when the year changes
+  }
 
-  
-
-  
-
-  cancelBooking(bookings:Booking){
-    console.log("cancel booking Id:",bookings._id)
-    const answer=window.confirm("Do you Really want to Cancel it...?")
-    if(answer){
-      const obs=this.bookingService.cancelBooking(bookings);
-      console.log(obs);
-        obs.subscribe({
-          next:(resultData)=>{
-          console.log("Cancel bookings",resultData);
-          window.alert("Booking Cancel Successfully....!");
-          this.fetchBookings();
-          
-          },
-          error: (e) => console.error('Error fetching bookings:', e),
-          complete: () => console.info('complete') 
-        });
-      
+  renderWeeklyChart() {
+    if (this.weeklyChart) this.weeklyChart.destroy(); // Avoid duplicate charts
+    const ctx: any = document.getElementById('weeklyChart'); // ID of your canvas element
+    this.weeklyChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: this.weeklyStats.map(stat => `Week ${stat._id}`), // Week IDs as labels
+        datasets: [{
+          label: 'Total Bookings',
+          data: this.weeklyStats.map(stat => stat.totalBookings),
+          backgroundColor: '#ffcccb',
+        }, {
+          label: 'Total Amount (INR)',
+          data: this.weeklyStats.map(stat => stat.totalAmount),
+          backgroundColor: '#f8a488',
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
       }
+    });
   }
 
-  payment(paymentStatus:string){
-    console.log(paymentStatus);
-    if(paymentStatus !="completed"){
-      this.router.navigate(['/payment']);
-    }
-    else{
-      alert("payment completed....")
-    }
-    
+  renderMonthlyChart() {
+    if (this.monthlyChart) this.monthlyChart.destroy(); // Avoid duplicate charts
+    const ctx: any = document.getElementById('monthlyChart'); // ID of your canvas element
+    this.monthlyChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: this.monthlyStats.map(stat => `Month ${stat._id}`), // Month IDs as labels
+        datasets: [{
+          label: 'Total Bookings',
+          data: this.monthlyStats.map(stat => stat.totalBookings),
+          backgroundColor: 'plum',
+        }, {
+          label: 'Total Amount (INR)',
+          data: this.monthlyStats.map(stat => stat.totalAmount),
+          backgroundColor: 'purple',
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
   }
 }
+
+

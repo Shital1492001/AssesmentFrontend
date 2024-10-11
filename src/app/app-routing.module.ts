@@ -4,9 +4,10 @@ import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { BookingSlotFormComponent } from './booking-slot-form/booking-slot-form.component';
-// import { authenticationGuard } from './guards/Guards';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PaymentComponent } from './payment/payment.component';
+// import { MontlyComponent } from './montly/montly.component';
+import { ShowBookingsComponent } from './show-bookings/show-bookings.component';
 
 const routes: Routes = [
   {
@@ -39,6 +40,10 @@ const routes: Routes = [
   {
     path:'payment',
     component:PaymentComponent,
+  },
+  {
+    path:'showbookings',
+    component:ShowBookingsComponent,
   }
   
 ];

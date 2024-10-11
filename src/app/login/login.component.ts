@@ -19,9 +19,10 @@ export class LoginComponent {
   login() {
     if (this.email && this.password) {
       this.authService.login(this.email, this.password).subscribe({
-        next: (response:any) => {
+        next: (response) => {
           // Assuming the backend returns a token upon successful login
-          console.log(response);
+          console.log("Login observable",response);
+      
           console.log(response._id)
           const id=response._id;
           this.authService.getCurrentUserId(id);

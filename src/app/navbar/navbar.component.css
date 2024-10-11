@@ -1,0 +1,18 @@
+/* styles.css or navbar.component.css */
+
+.navbar-profile-img {
+    width: 50px;          /* Adjust the size as needed */
+    height: 50px;         /* Adjust the size as needed */
+    border-radius: 50%;   /* Makes the image circular */
+    object-fit: cover;    /* Ensures the image covers the area */
+    border: 2px solid #fff; /* Optional: adds a border around the image */
+  }
+  
+  .profile-image {
+    width: 100px;         /* Adjust size as needed for profile page */
+    height: 100px;        /* Adjust size as needed for profile page */
+    border-radius: 50%;   /* Makes the image circular */
+    object-fit: cover;    /* Ensures the image covers the area */
+    border: 2px solid #ccc; /* Optional: adds a border around the image */
+  }
+  

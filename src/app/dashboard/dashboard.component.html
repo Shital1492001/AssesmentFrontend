@@ -1,52 +1,29 @@
-<!-- <div  class="mb-4">
-  <div class="mb-3">
-    <label for="year" class="form-label text-light">Year:</label>
-    <select  name="year" class="form-select" required>
-      <option selected disabled>select Year</option>
-      <option value="2020">2020</option>
-      <option value="2021">2021</option>
-      <option value="2020">2022</option>
-      <option value="2021">2023</option>
-      <option value="2020">2024</option>
-      <option value="2021">2025</option>
-      <option value="2020">2026</option>
-      <option value="2021">2027</option>
+<div class="dashboard-container">
+  <h1>Booking Statistics</h1>
+
+  <div class="year-selector">
+    <label for="year">Select Year:</label>
+    <select id="year" [(ngModel)]="selectedYear" (change)="onYearChange()">
+      <option *ngFor="let year of years" [value]="year">{{year}}</option>
     </select>
-    
-    <label for="Statatics" class="form-label text-light">Monthly/Weekly:</label>
-      <select  name="Statatics" class="form-select" required>
-        <option selected disabled>select</option>
-        <option value="monthly">monthly</option>
-        <option value="weekly">weekly</option>
-      </select>
-  
-</div>
-</div> -->
-
-
-
-
-<h1 class="text-light text-center">Booking Dashboard</h1>
-<div *ngIf="bookings.length === 0" class="alert alert-warning">
-  No Any bookings.
-</div>
-<div class="row">
-  <div *ngFor="let booking of bookings" class="col-md-4 mb-4">
-    <div class="card">
-      <div class="card-body bg-light">
-        <!-- <h5 class="card-title">UserID: {{ booking.userId }}</h5> -->
-       <!-- <h5 class="card-title">SlotID: {{ booking.slotId }}</h5> -->
-        <p class="card-text">Vehicle Type: {{ booking.vehicleType }}</p>
-        <p class="card-text">TimeFrom: {{ booking.timeFrom | date: 'medium' : 'UTC' }}</p>
-        <p class="card-text">TimeTo: {{ booking.timeTo | date: 'medium' : 'UTC' }}</p>
-        <p class="card-text">Payment Status: {{ booking.paymentStatus }}</p> 
-      </div>
-      <div>
-        <button class="btn btn-success m-4"  (click)="payment(booking.paymentStatus)" >Pay</button>
-        <button class="btn btn-danger"  (click)="cancelBooking(booking)">Cancel Booking</button>
-      </div>
-      
-      
-    </div>
   </div>
+
   
+  <div>
+    <h3 class="text-center">Weekly statistics for {{selectedYear}}</h3>
+    <canvas id="weeklyChart"></canvas>
+  </div>
+
+
+  <div>
+    <h3 class="text-center">Monthly statistics for {{selectedYear}}</h3>
+    <canvas id="monthlyChart"></canvas>
+  </div>
+</div>
+
+
+
+
+<!-- <div>
+  <app-montly></app-montly>
+</div> -->
