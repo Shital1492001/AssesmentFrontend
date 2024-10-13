@@ -30,7 +30,7 @@ export class RegisterComponent {
           console.log("Registration successful:", response);
           alert("Registration successful! Please login.");
           this.router.navigate(['/login']); 
-          } // Redirect to login page after successful registration
+          } 
         },
         error: (err) => {
           console.error("Registration failed:", err);

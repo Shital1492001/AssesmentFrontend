@@ -46,42 +46,33 @@ export class BookingSlotFormComponent {
     );
   }
 
-  // updateSlots(_id:string){
-  //   console.log("fdsdf",_id);
-  //   this.bookingService.updateSlotsById(_id).subscribe({
-  //     next: (response) => {
-  //       console.log('update slots:', response); 
-  //       // this.fetchSlots();
-  //       if (response) 
-  //         this.slots = response.slot; 
-  //       this.fetchSlots();
-  //       // } else {
-  //       //   console.error('Expected an array but got:', response);
-  //       //   this.slots = []; 
-  //       // }
-  //     },
-  //     error: (e) => console.error('Error updating slots by Id:', e),
-  //     complete: () => console.info('Slots updating by Id successfully')
-  //   });
-  // }
+  updateSlotStatus(slotId: string) {
+    this.slotService.updateSlotsById(slotId).subscribe({
+      next: (response) => {
+        console.log("Slot status updated to occupied:", response);
+        this.fetchSlots(); 
+      },
+      error: (err) => {
+        console.error("Failed to update slot status:", err);
+      }
+    });
+  }
+
 
   setUserId() {
-    // Assuming your AuthService has a method to get the current user
-    this.selectedUserId = this.authService.getuserId();  // Fetch the current user's ID
-    console.log('Selected User ID:', this.selectedUserId); // Log the selected user ID
+    
+    this.selectedUserId = this.authService.getuserId();  
+    console.log('Selected User ID:', this.selectedUserId); 
   }
 
   fetchSlotsByVehicleType(vehicleType: string) {
     if (vehicleType) {
       this.slotService.getSlotsByVehicleType(vehicleType).subscribe({
         next: (response) => {
-          console.log('Fetched slots:', response); // Log the response
-          // if (Array.isArray(response)) {
-            this.slots = response.slot; // Only assign if it's an array
-          // } else {
-          //   console.error('Expected an array but got:', response);
-          //   this.slots = []; // Reset slots if the response is not valid
-          // }
+          console.log('Fetched slots:', response); 
+          
+            this.slots = response.slot; 
+          
         },
         error: (e) => console.error('Error fetching slots by vehicle type:', e),
         complete: () => console.info('Slots fetched by vehicle type successfully')
@@ -95,7 +86,6 @@ export class BookingSlotFormComponent {
     }
   }
 
-  // Method to get dynamic CSS class based on status
   getSlotClass(slot: Slot) {
     if (this.selectedSlotId === slot._id) {
       console.log("selected Slot Id:",this.selectedSlotId);
@@ -105,7 +95,7 @@ export class BookingSlotFormComponent {
     } else if (slot.status === 'occupied' ) {
       return 'slot-occupied';  // Red for occupied slot
     }
-    return slot;  // Default class
+    return slot;  
   }
 
   calculatedAmount(): number {
@@ -137,7 +127,7 @@ export class BookingSlotFormComponent {
       next:(response)=>{
         console.log("Slot booked successfully:",response);
         alert("Slot booked successfully!");
-        // this.updateSlots(this.selectedSlotId);
+        this.updateSlotStatus(this.selectedSlotId);
         this.router.navigate(['/showbookings']);
         // this.updateSlots(this.selectedSlotId)
       },

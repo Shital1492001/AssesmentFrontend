@@ -14,8 +14,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { provideHttpClient } from '@angular/common/http';
 // import { authInterceptor } from './customServices/auth.interceptor';
 import { FooterComponent } from './footer/footer.component';
-import { PaymentComponent } from './payment/payment.component';
-// import { MontlyComponent } from './montly/montly.component';
 import { ShowBookingsComponent } from './show-bookings/show-bookings.component';
 import { DatePipe } from '@angular/common';
 
@@ -30,8 +28,6 @@ import { DatePipe } from '@angular/common';
     BookingSlotFormComponent,
     FooterComponent,
     DashboardComponent,
-    PaymentComponent,
-    // MontlyComponent,
     ShowBookingsComponent
   ],
   imports: [

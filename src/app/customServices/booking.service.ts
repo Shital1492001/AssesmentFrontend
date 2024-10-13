@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Booking } from '../customClasses/booking';
-import { Slot } from '../customClasses/slot';
+import { AuthService } from './auth.service';
 
 export interface weekly{
   _id:number,
@@ -36,12 +36,12 @@ interface BookingData{
   bookings:Booking[];
 }
 
-interface SlotData{
-  statusCode:number,
-  success:boolean,
-  message:string,
-  slot:Slot[];
-}
+// interface SlotData{
+//   statusCode:number,
+//   success:boolean,
+//   message:string,
+//   slot:Slot[];
+// }
 
 
 
@@ -52,32 +52,33 @@ export class BookingService {
   private tokenKey = 'authToken';
   private apiUrl = 'http://localhost:5000/booking'; 
 
-  constructor(private http: HttpClient) {}
-  // Method to get token from localStorage
-  private getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
-  }
+  constructor(private http: HttpClient,private authService:AuthService) {}
+  //  get token from localStorage
+  // private getToken(): string | null {
+  //   return localStorage.getItem(this.tokenKey);
+  // }
   
 
-  // Method to get authorization headers
+  //  get authorization headers
   private getAuthHeaders(): HttpHeaders {
-    const token = this.getToken();
+    const token = this.authService.getToken();
     if (token) {
       return new HttpHeaders({
         Authorization: `Bearer ${token}`
       });
     }
-    return new HttpHeaders();  // Return empty headers if no token
+    return new HttpHeaders();  
   }
 
   book(userId: string, slotId: string,vehicleType:string,timeFrom:Date,timeTo:Date,totalAmount:Number): Observable<BookingData> {
    const headers = this.getAuthHeaders();
    const credentials = { userId, slotId,vehicleType,timeFrom,timeTo,totalAmount };
-   return this.http.post<BookingData>(`${this.apiUrl}/add`, credentials,{headers});  // Make a POST request to the backend for login
+   return this.http.post<BookingData>(`${this.apiUrl}/add`, credentials,{headers});  
  }
 
   getBookings(): Observable<BookingData> {
     const headers = this.getAuthHeaders();
+    console.log("Headers in getBookings....",headers);
     const obs=this.http.get<BookingData>(`${this.apiUrl}/getall`, { headers }) 
     console.log("get Bookings...",obs)
     return obs;
@@ -97,25 +98,11 @@ export class BookingService {
     return obs;
   }
 
-
-  // updateSlotsById(_id: string): Observable<SlotData> {
-  //   console.log("updated id",_id);
-  //   const headers = this.getAuthHeaders();
-  //   console.log("headers",headers);
-    
-  //   const obs=this.http.put<SlotData>(`${this.apiUrl}/update/${_id}`, { headers });
-  //   console.log("obs",obs);
-    
-  //   return obs;
-    
-  // }
-
-  
-  // updateBookings(booking:Booking[]) :Observable<Booking[]>{
-  //   const headers = this.getAuthHeaders();
-  //   // const id ={booking._id};
-  //   const obs=this.http.put<Booking[]>(`${this.apiUrl}/update/${booking._id}`,booking, { headers }) 
-  //   // console.log("get Bookings...",obs)
-  //   return obs;
-  // }
+  updateBookingById(_id:string) :Observable<BookingData>{
+    const headers = this.getAuthHeaders();
+    // const id ={booking._id};
+    const obs=this.http.put<BookingData>(`${this.apiUrl}/update/${_id}`,{paymentStatus:"Completed"}, { headers }) 
+    // console.log("get Bookings...",obs)
+    return obs;
+  }
 }

@@ -26,10 +26,7 @@ export class ShowBookingsComponent {
     const obs=this.bookingService.getBookings();
     console.log(obs);
     obs.subscribe({
-      // const a=BookingData{this.statusCode=}
       next: (resultData) => {
-        // let a=resultData.timeFrom;
-        // resultData.timeFrom=a.toUTCString();
         console.log("fetch bookings",resultData);
         this.bookings = resultData.bookings;
         
@@ -39,6 +36,21 @@ export class ShowBookingsComponent {
     }
       
     );
+  }
+
+
+  updatePaymentStatus(bookingId: string) {
+    console.log("update payment status id",bookingId)
+    this.bookingService.updateBookingById(bookingId).subscribe({
+      next: (response) => {
+        console.log("payment status updated to completed:", response);
+        this.fetchBookings(); 
+        this.router.navigate(['/dashboard'])
+      },
+      error: (err) => {
+        console.error("Failed to update payment status:", err);
+      }
+    });
   }
 
   cancelBooking(bookings:Booking){
@@ -59,16 +71,5 @@ export class ShowBookingsComponent {
         });
       
       }
-  }
-
-  payment(paymentStatus:string){
-    console.log(paymentStatus);
-    if(paymentStatus !="completed"){
-      this.router.navigate(['/payment']);
-    }
-    else{
-      alert("payment completed....")
-    }
-    
   }
 }

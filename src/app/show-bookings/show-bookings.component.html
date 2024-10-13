@@ -14,7 +14,7 @@
         <p class="card-text">Payment Status: {{ booking.paymentStatus }}</p> 
       </div>
       <div>
-        <button class="btn btn-success m-4"  (click)="payment(booking.paymentStatus)" >Pay Now</button>
+        <button class="btn btn-success m-4"  (click)="updatePaymentStatus(booking._id)" >Pay Now</button>
         <button class="btn btn-danger"  (click)="cancelBooking(booking)">Cancel Booking</button>
       </div>
     </div>

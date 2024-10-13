@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Slot } from '../customClasses/slot';
 import { Observable} from 'rxjs';
+import { AuthService } from './auth.service';
 
 interface SlotData{
   statusCode:number,
@@ -10,29 +11,29 @@ interface SlotData{
   slot:Slot[];
 }
 
+interface ApiError{
+  statusCode:number,
+  message:string,
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class SlotService {
-  private tokenKey = 'authToken'; // Key to store the token in localStorage
-  private apiUrl = 'http://localhost:5000/slot';  // Adjust to your backend URL
+  private tokenKey = 'authToken'; 
+  private apiUrl = 'http://localhost:5000/slot';  
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private authService:AuthService) {}
 
-  // Method to get token from localStorage
-  private getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
-  }
-
-  // Method to get authorization headers
+  // get authorization headers
   private getAuthHeaders(): HttpHeaders {
-    const token = this.getToken();
+    const token = this.authService.getToken();
     if (token) {
       return new HttpHeaders({
         Authorization: `Bearer ${token}`
       });
     }
-    return new HttpHeaders();  // Return empty headers if no token
+    return new HttpHeaders();  
   }
 
   // Fetch all slots
@@ -49,15 +50,18 @@ export class SlotService {
     
   }
 
-  updateSlotsById(_id: string, status:string): Observable<SlotData> {
+  updateSlotsById(_id: string): Observable<SlotData> {
     console.log("updated id",_id);
     const headers = this.getAuthHeaders();
     console.log("headers",headers);
     
-    const obs=this.http.put<SlotData>(`${this.apiUrl}/update/${_id}`,{status}, { headers });
+    const obs=this.http.put<SlotData>(`${this.apiUrl}/update/${_id}`,{status:"occupied"}, { headers });
     console.log("obs",obs);
     
     return obs;
     
   }
+
+
+  
 }

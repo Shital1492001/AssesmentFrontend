@@ -3,6 +3,14 @@ import { BookingService, monthly, weekly } from '../customServices/booking.servi
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 
+
+// interface BarChart{
+//   config:'',
+//   $context:{},
+//   id:0,
+//   ctx:''
+// }
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -15,14 +23,14 @@ export class DashboardComponent{
   monthlyStats: monthly[] = [];
   years = [2022, 2023, 2024, 2025, 2026, 2027];
 
-  // Bar Chart variables
+  
   weeklyChart: any;
   monthlyChart: any;
 
   constructor(private bookingService: BookingService) {}
 
   ngOnInit(): void {
-    this.fetchStats(); // Fetch stats on component load
+    this.fetchStats(); 
   }
 
   fetchStats() {
@@ -31,7 +39,7 @@ export class DashboardComponent{
         console.log('stats', data);
         this.weeklyStats = data.statsw;
         this.monthlyStats = data.statsm;
-        this.renderWeeklyChart(); // Render chart after data is fetched
+        this.renderWeeklyChart(); 
         this.renderMonthlyChart();
       },
       error: (err) => {
@@ -41,12 +49,14 @@ export class DashboardComponent{
   }
 
   onYearChange(): void {
-    this.fetchStats(); // Refetch stats when the year changes
+    this.fetchStats(); 
   }
 
   renderWeeklyChart() {
     if (this.weeklyChart) this.weeklyChart.destroy(); // Avoid duplicate charts
-    const ctx: any = document.getElementById('weeklyChart'); // ID of your canvas element
+    const ctx: any = document.getElementById('weeklyChart'); 
+    console.log("ctx",ctx);
+    console.log(typeof(ctx));
     this.weeklyChart = new Chart(ctx, {
       type: 'bar',
       data: {
@@ -69,11 +79,13 @@ export class DashboardComponent{
         }
       }
     });
+    console.log(this.weeklyChart);
+    console.log(typeof(this.weeklyChart));
   }
 
   renderMonthlyChart() {
     if (this.monthlyChart) this.monthlyChart.destroy(); // Avoid duplicate charts
-    const ctx: any = document.getElementById('monthlyChart'); // ID of your canvas element
+    const ctx: any = document.getElementById('monthlyChart'); 
     this.monthlyChart = new Chart(ctx, {
       type: 'bar',
       data: {

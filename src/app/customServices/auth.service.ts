@@ -19,20 +19,20 @@ export interface UserData{
 export class AuthService {
   private loginFlag=false;
   private tokenKey = 'authToken'; // Key to store the token in localStorage
-  private apiUrl = 'http://localhost:5000/user'; // Backend API URL for login
+  private apiUrl = 'http://localhost:5000/user'; 
   private userId ='';
 
   constructor(private http: HttpClient) {}
 
 
-  // Register method to send user details to the backend for registration
+  // send user details to the backend for registration
   register(username: string, email: string, contactNumber: number, password: string): Observable<UserData> {
     const user = {username, email, contactNumber, password };
-    return this.http.post<UserData>(`${this.apiUrl}/register`, user);  // Make POST request to register
+    return this.http.post<UserData>(`${this.apiUrl}/register`, user);  
   }
 
 
-  // Login method that sends the login credentials to the backend
+  // sends the login credentials to the backend
   login(email: string, password: string): Observable<UserData> {
      this.loginFlag=true;
     const credentials = { email, password };
@@ -46,23 +46,22 @@ export class AuthService {
   storeToken(token: string) {
     localStorage.setItem(this.tokenKey, token);
     console.log("Token stored:", token);
-    // const expiryTime = new Date().getTime() + expiresIn * 1000; // Convert to milliseconds
-    // localStorage.setItem('tokenExpiry', expiryTime.toString());
+    
   }
 
-  // Method to retrieve the token
+  //  retrieve the token
   getToken(): string | null {
     const token = localStorage.getItem(this.tokenKey);
     console.log("Retrieved token:", token);
     return token;
   }
 
-  // Method to check login status based on token presence
+  // check login status based on token presence
   getLoginStatus(): boolean {
     return localStorage.getItem(this.tokenKey) !==null;
   }
 
-  // Method to remove token on logout
+  // remove token on logout
   logout() {
     this.loginFlag=false;
     localStorage.removeItem(this.tokenKey);
@@ -74,7 +73,7 @@ export class AuthService {
   //   return this.loginFlag;
   // }
 
-   // Method to get the current user's ID
+   // get the current user's ID
   getCurrentUserId(id:string) {
     localStorage.setItem(this.userId, id);
     // console.log("UserId stored:", id);
