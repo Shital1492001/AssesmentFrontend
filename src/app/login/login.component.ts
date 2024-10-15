@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../customServices/auth.service';  
-import { User } from '../customClasses/user';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,7 @@ export class LoginComponent {
     if (this.email && this.password) {
       this.authService.login(this.email, this.password).subscribe({
         next: (response) => {
-          //backend returns a token upon successful login
+        
           console.log("Login observable",response);
       
           console.log(response._id)
@@ -28,7 +28,7 @@ export class LoginComponent {
           const token = response.token;
           
           if (token) {
-            // Store the token and redirect to the desired page
+            
             this.authService.storeToken(token);
             this.router.navigate(['/dashboard']);
             console.log("Login successful.");

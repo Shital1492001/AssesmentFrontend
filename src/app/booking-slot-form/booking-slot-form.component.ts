@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { Slot } from '../customClasses/slot';
+import { Slot } from '../models/slot';
 import { SlotService } from '../customServices/slot.service';
 import { AuthService } from '../customServices/auth.service';
 import { BookingService } from '../customServices/booking.service';
 import { Router } from '@angular/router';
-import { Booking } from '../customClasses/booking';
+import { Booking } from '../models/booking';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-booking-slot-form',
@@ -24,7 +25,7 @@ export class BookingSlotFormComponent {
   
 
 
-  constructor(private slotService: SlotService,private authService: AuthService,private bookingService:BookingService,private router:Router) {}
+  constructor(private slotService: SlotService,private authService: AuthService,private bookingService:BookingService,private router:Router,private toastr:ToastrService) {}
 
   ngOnInit(): void {
     this.fetchSlots();
@@ -82,7 +83,7 @@ export class BookingSlotFormComponent {
 
   selectSlot(slot: Slot) {
     if (slot.status === 'available') {
-      this.selectedSlotId = slot._id;  // Set selected slot
+      this.selectedSlotId = slot._id;  // Set selected slot id
     }
   }
 
@@ -100,7 +101,7 @@ export class BookingSlotFormComponent {
 
   calculatedAmount(): number {
     if (!this.timeFrom || !this.timeTo || !this.slots) {
-      return 0; // Return 0 if any required field is missing
+      return 0; 
     }
 
     // Convert timeFrom and timeTo to Date objects
@@ -109,9 +110,9 @@ export class BookingSlotFormComponent {
 
     // Calculate the difference in hours
     const diffInMs = endTime.getTime() - startTime.getTime();
-    console.log("diffInMs",diffInMs);
+    // console.log("diffInMs",diffInMs);
     const durationInHours = diffInMs / (1000 * 60 * 60); // Convert from milliseconds to hours
-    console.log("durationInHours",durationInHours);
+    // console.log("durationInHours",durationInHours);
 
     // Calculate the total amount
     const baseAmount = this.vehicleType === '2 Wheeler' ? 50 : 100;
@@ -126,7 +127,7 @@ export class BookingSlotFormComponent {
     this.bookingService.book(this.selectedUserId ,this.selectedSlotId , this.vehicleType , this.timeFrom , this.timeTo ,this.totalAmount).subscribe({
       next:(response)=>{
         console.log("Slot booked successfully:",response);
-        alert("Slot booked successfully!");
+        this.toastr.success("Slot booked successfully!","Success");
         this.updateSlotStatus(this.selectedSlotId);
         this.router.navigate(['/showbookings']);
         // this.updateSlots(this.selectedSlotId)
@@ -134,7 +135,7 @@ export class BookingSlotFormComponent {
       error:(err)=>{
         console.log(this.selectedUserId)
         console.error("booking failed..",err);
-        alert("booking Failed");
+        this.toastr.error("booking Failed","Error");
       }
     });
   }

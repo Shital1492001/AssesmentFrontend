@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../customServices/auth.service';
 import { NgForm } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +18,7 @@ export class RegisterComponent {
   confirmPassword:''
   }
   
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router,private toastr:ToastrService) {}
 
   save(form:NgForm) {
     console.log(form);
@@ -25,16 +26,16 @@ export class RegisterComponent {
       this.authService.register(form.value.username, form.value.email, form.value.contactNumber, form.value.password).subscribe({
         next: (response) => {
            if (this.model.password !== this.model.confirmPassword) {
-            alert("Passwords do not match! Please re-enter.");
-          } else{
+            this.toastr.error("Passwords do not match! Please re-enter.");
+          } else if(form.valid){
           console.log("Registration successful:", response);
-          alert("Registration successful! Please login.");
+          this.toastr.success("Registration successful! Please login.","Success");
           this.router.navigate(['/login']); 
           } 
         },
         error: (err) => {
           console.error("Registration failed:", err);
-          alert("Registration failed...Please try again...");
+          this.toastr.error("Registration failed...Please try again...","Error");
         }
       });
     }

@@ -60,15 +60,16 @@ export class DashboardComponent{
     this.weeklyChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: this.weeklyStats.map(stat => `Week ${stat._id}`), // Week IDs as labels
+        labels: this.weeklyStats.map(stat => `Week ${stat._id}`), // Week Id as labels
         datasets: [{
           label: 'Total Bookings',
           data: this.weeklyStats.map(stat => stat.totalBookings),
-          backgroundColor: '#ffcccb',
+          backgroundColor: '#FFD7C4',
         }, {
           label: 'Total Amount (INR)',
           data: this.weeklyStats.map(stat => stat.totalAmount),
-          backgroundColor: '#f8a488',
+          backgroundColor: '#FF9874',
+          borderWidth:2,
         }]
       },
       options: {
@@ -89,7 +90,7 @@ export class DashboardComponent{
     this.monthlyChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: this.monthlyStats.map(stat => `Month ${stat._id}`), // Month IDs as labels
+        labels: this.monthlyStats.map(stat => `Month ${stat._id}`), // Month Id as labels
         datasets: [{
           label: 'Total Bookings',
           data: this.monthlyStats.map(stat => stat.totalBookings),
@@ -98,6 +99,7 @@ export class DashboardComponent{
           label: 'Total Amount (INR)',
           data: this.monthlyStats.map(stat => stat.totalAmount),
           backgroundColor: 'purple',
+          borderWidth:2,
         }]
       },
       options: {

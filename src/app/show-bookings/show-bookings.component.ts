@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { BookingService } from '../customServices/booking.service';
 import { Router } from '@angular/router';
-import { Booking } from '../customClasses/booking';
+import { Booking } from '../models/booking';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-show-bookings',
@@ -13,7 +14,7 @@ export class ShowBookingsComponent {
   paymentStatus='';
   
 
-  constructor(private bookingService: BookingService,private router:Router) {
+  constructor(private bookingService: BookingService,private router:Router,private toastr:ToastrService) {
     
   }
 
@@ -62,7 +63,7 @@ export class ShowBookingsComponent {
         obs.subscribe({
           next:(resultData)=>{
           console.log("Cancel bookings",resultData);
-          window.alert("Booking Cancel Successfully....!");
+          this.toastr.success("Booking Cancel Successfully....!","Success");
           this.fetchBookings();
           
           },

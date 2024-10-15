@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '../customClasses/user';
+import { User } from '../models/user';
+import { ToastrService } from 'ngx-toastr';
 
 export interface UserData{
   statusCode:number,
@@ -22,12 +23,13 @@ export class AuthService {
   private apiUrl = 'http://localhost:5000/user'; 
   private userId ='';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private toastr:ToastrService) {}
 
 
   // send user details to the backend for registration
   register(username: string, email: string, contactNumber: number, password: string): Observable<UserData> {
     const user = {username, email, contactNumber, password };
+    // this.toastr.success("Registration successfully....!")
     return this.http.post<UserData>(`${this.apiUrl}/register`, user);  
   }
 
@@ -36,7 +38,7 @@ export class AuthService {
   login(email: string, password: string): Observable<UserData> {
      this.loginFlag=true;
     const credentials = { email, password };
-    alert("You Logged in successfully....!")
+    this.toastr.success("You Logged in successfully....!","Success")
     const obs=this.http.post<UserData>(`${this.apiUrl}/login`, credentials);  
     return obs;
 
@@ -46,6 +48,7 @@ export class AuthService {
   storeToken(token: string) {
     localStorage.setItem(this.tokenKey, token);
     console.log("Token stored:", token);
+    // this.getToken();
     
   }
 
@@ -64,8 +67,9 @@ export class AuthService {
   // remove token on logout
   logout() {
     this.loginFlag=false;
+    this.toastr.success("Logout successfully....!","Success");
     localStorage.removeItem(this.tokenKey);
-    alert("Logout successfully....!")
+    
     console.log("User logged out. Token removed.");
     console.log(this.tokenKey)
   }
