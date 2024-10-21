@@ -27,7 +27,7 @@ export class RegisterComponent {
         next: (response) => {
            if (this.model.password !== this.model.confirmPassword) {
             this.toastr.error("Passwords do not match! Please re-enter.");
-          } else if(form.valid){
+          } else{
           console.log("Registration successful:", response);
           this.toastr.success("Registration successful! Please login.","Success");
           this.router.navigate(['/login']); 
@@ -36,6 +36,7 @@ export class RegisterComponent {
         error: (err) => {
           console.error("Registration failed:", err);
           this.toastr.error("Registration failed...Please try again...","Error");
+          this.router.navigate(["/register"])
         }
       });
     }
